@@ -11,7 +11,7 @@
          - ingrediente
     macarrones panAjo alitas nuggets tendies
          - plato
-    location
+    casa pizzeria - location
     
 )
 
@@ -22,10 +22,11 @@
     (isKneaded ?x - dough)
     (topped ?x - dough)
     (hasTopping ?x - dough ?y - ingrediente)
-    (baked ?x - dough)
-    (cooked ?x - plato)
+    (cooked ?x - comida)
     (loaded ?x - comida)
-    (inStore)
+    (delivered ?c - comida ?l - casa)
+    (in ?x - location)
+    (collected ?c - comida)
 )
 
 
@@ -36,7 +37,7 @@
 (:action kneadDough
     :parameters (?x - dough)
     :precondition (not (isKneaded ?x) )
-    :effect (and(isKneaded ?x ) (topped ?x))
+    :effect (and(isKneaded ?x ))
 )
 
 (:action addTopping
@@ -47,8 +48,8 @@
 
 (:action bake
     :parameters (?x - dough)
-    :precondition (and (isKneaded ?x) (topped ?x) (not (baked ?x)))
-    :effect (baked ?x)
+    :precondition (and (isKneaded ?x) (topped ?x) (not (cooked ?x)))
+    :effect (cooked ?x)
 )
 
 (:action cook
@@ -58,15 +59,34 @@
 )
 
 (:action load
-    :parameters (?x - comida)
-    :precondition (and(not (loaded ?x)) (inStore))
+    :parameters (?x - comida ?l - pizzeria)
+    :precondition (and (not (loaded ?x)) (in ?l) (cooked ?x))
     :effect (loaded ?x)
 )
 
-(:action move
-    :parameters ()
-    :precondition (and )
-    :effect (and )
+(:action go
+    :parameters (?l1 - pizzeria ?l2 - casa)
+    :precondition (in ?l1)
+    :effect (and (in ?l2) (not (in ?l1)))
+)
+
+(:action comeBack
+    :parameters (?l1 - casa ?l2 - pizzeria)
+    :precondition (in ?l1)
+    :effect (and (in ?l2) (not (in ?l1)))
+)
+
+
+(:action collectOrder
+    :parameters (?c - comida ?l - casa)
+    :precondition (and (loaded ?c) (not (collected ?c)) (in ?l) (not (delivered ?c ?l)))
+    :effect (collected ?c)
+)
+
+(:action deliverOrder
+    :parameters (?c - comida ?l - casa)
+    :precondition (and (collected ?c) (in ?l) (not (delivered ?c ?l)))
+    :effect (delivered ?c ?l)
 )
 
 )
