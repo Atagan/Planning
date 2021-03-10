@@ -1,4 +1,4 @@
-(define (problem problem_name) (:domain domain_name)
+(define (problem marsRobot1) (:domain marsRobot)
 (:objects 
     P0000 P1300 P0014 P1314 P9999 - location 
 )
