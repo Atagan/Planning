@@ -9,6 +9,7 @@
     room 
     caja
     luz
+    door
 )
 
 ; un-comment following line if constants are needed
@@ -20,6 +21,8 @@
     (luzEn ?l - luz ?r - room)
     (encendida ?l - luz)
     (robotSobreCaja)
+    (connected ?x ?y - room)
+    (conects ?x ?y -room ?z -door)
 )
 
 
