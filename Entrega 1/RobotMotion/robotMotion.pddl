@@ -15,9 +15,10 @@
 ;(:constants )
 
 (:predicates ;todo: define predicates here
-    (robotEn ?r - room)
-    (cajaEn ?c - caja ?r - room)
-    (luzOn -l - luz)
+    (robotEn ?x - room)
+    (cajaEn ?x - caja ?y - room)
+    (luzEn ?l - luz ?r - room)
+    (encendida ?l - luz)
     (robotSobreCaja)
 )
 
@@ -27,7 +28,7 @@
 
 (:action move
     :parameters (?r1 ?r2 -room)
-    :precondition (and (robotEn ?r1) (not (= ?r1 ?r2)))
+    :precondition (and (robotEn ?r1) (not (= ?r1 ?r2)) (not (robotSobreCaja)))
     :effect (and (not (robotEn ?r1)) 
                  (robotEn ?r2)
             )
@@ -35,15 +36,34 @@
 
 (:action push
     :parameters (?c - caja ?r1 ?r2 - room)
-    :precondition (and (robotEn ?r1) (cajaEn ?r1) )
-    :effect (and)
+    :precondition (and (robotEn ?r1) (cajaEn ?c ?r1) (not (robotSobreCaja)))
+    :effect (and (robotEn ?r2) (cajaEn ?c ?r2))
 )
 
 (:action climbUp
-    :parameters (?c - caja)
-    :precondition (and )
-    :effect (and )
+    :parameters (?c - caja ?r - room)
+    :precondition (and (robotEn ?r) (cajaEn ?c ?r) (not (robotSobreCaja)))
+    :effect (robotSobreCaja)
 )
+
+(:action climbDown
+    :parameters (?c - caja ?r - room)
+    :precondition (and (robotEn ?r) (cajaEn ?c ?r) (robotSobreCaja))
+    :effect (not( robotSobreCaja))
+)
+
+(:action turnOn
+    :parameters (?l - luz ?r - room)
+    :precondition (and (robotEn ?r) (not (encendida ?l)) (robotSobreCaja) (luzEn ?l ?r))
+    :effect (encendida ?l)
+)
+
+(:action turnOff
+    :parameters (?l - luz ?r - room)
+    :precondition (and (robotEn ?r) (encendida ?l) (robotSobreCaja) (luzEn ?l ?r))
+    :effect (not (encendida ?l))
+)
+
 
 
 ;define actions here
