@@ -3,7 +3,7 @@
 (define (domain spaceop)
 
 ;remove requirements that are not needed
-(:requirements :strips :fluents :durative-actions :timed-initial-literals :typing :conditional-effects :negative-preconditions :duration-inequalities :equality)
+(:requirements :strips :fluents :typing :negative-preconditions :equality)
 
 (:types satellite direction instrument mode)
 
