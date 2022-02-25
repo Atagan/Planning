@@ -303,11 +303,10 @@ def main():
             f.write("\t(caja-en "+ x +" almacen)\n")
 
         #colocar los contenidos en las cajas
-        for x in crates_with_contents[0]:#comida
-            f.write("\t(contiene "+ x +" "+content_types[0] +")\n")
+        for i in range(len(content_types)):
+            for x in crates_with_contents[i]:#comida
+                f.write("\t(contiene "+ x +" "+content_types[i] +")\n")
 
-        for x in crates_with_contents[1]:#medicina
-            f.write("\t(contiene "+ x +" "+content_types[1] +")\n")
 
         #TODO: colocar las personas en su ubicación
 
