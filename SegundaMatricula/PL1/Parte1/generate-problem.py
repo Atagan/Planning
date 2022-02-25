@@ -285,7 +285,6 @@ def main():
         for x in carrier:
             f.write("\t" + x + " - carrier\n")
 
-        f.write("\tcomida medicina - contenido\n")
 
         f.write(")\n")
 
@@ -305,10 +304,10 @@ def main():
 
         #colocar los contenidos en las cajas
         for x in crates_with_contents[0]:#comida
-            f.write("\t(contiene "+ x +" comida)\n")
+            f.write("\t(contiene "+ x +" "+content_types[0] +")\n")
 
         for x in crates_with_contents[1]:#medicina
-            f.write("\t(contiene "+ x +" medicina)\n")
+            f.write("\t(contiene "+ x +" "+content_types[1] +")\n")
 
         #TODO: colocar las personas en su ubicación
 
