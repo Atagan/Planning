@@ -219,7 +219,7 @@ def main():
     carrier = []
     location = []
 
-    location.append("depot")
+    location.append("almacen")
     for x in range(options.locations):
         location.append("loc" + str(x + 1))
     for x in range(options.drones):
@@ -264,26 +264,28 @@ def main():
         ######################################################################
         # Write objects
 
-        # TODO: Change the type names below (drone, location, ...)
+        # Change the type names below (drone, location, ...)
         # to suit your domain.
 
         for x in drone:
-            f.write("\t" + x + " - drone\n")
+            f.write("\t" + x + " - dron\n")
 
         for x in location:
-            f.write("\t" + x + " - location\n")
+            f.write("\t" + x + " - localizacion\n")
 
         for x in crate:
-            f.write("\t" + x + " - crate\n")
+            f.write("\t" + x + " - caja\n")
 
         for x in content_types:
-            f.write("\t" + x + " - contents\n")
+            f.write("\t" + x + " - contenido\n")
 
         for x in person:
-            f.write("\t" + x + " - person\n")
+            f.write("\t" + x + " - persona\n")
 
         for x in carrier:
             f.write("\t" + x + " - carrier\n")
+
+        f.write("\tcomida medicina - contenido\n")
 
         f.write(")\n")
 
@@ -292,7 +294,25 @@ def main():
 
         f.write("(:init\n")
 
-        # TODO: Initialize all facts here!
+        #  Drones empiezan en el almacen
+        for x in drone:
+            f.write("\t(dron-en "+ x +" almacen)\n")
+            f.write("\t(vacio "+ x +")\n")
+        
+        #cajas empiezan en el almacen
+        for x in crate:
+            f.write("\t(caja-en "+ x +" almacen)\n")
+
+        #colocar los contenidos en las cajas
+        for x in crates_with_contents[0]:#comida
+            f.write("\t(contiene "+ x +" comida)\n")
+
+        for x in crates_with_contents[1]:#medicina
+            f.write("\t(contiene "+ x +" medicina)\n")
+
+        #TODO: colocar las personas en su ubicación
+
+
 
         f.write(")\n")
 
@@ -304,15 +324,14 @@ def main():
         # All Drones should end up at the depot
         for x in drone:
             f.write("\n")
-            # TODO: Write a goal that the drone x is at the depot
+            f.write("\t(dron-en "+ x +" almacen)\n")
 
         for x in range(options.persons):
             for y in range(len(content_types)):
                 if need[x][y]:
                     person_name = person[x]
                     content_name = content_types[y]
-                    # TODO: write a goal that the person needs a crate
-                    # with this specific content
+                    f.write("\t(tiene "+person_name+" "+content_name+")\n")
 
         f.write("\t))\n")
         f.write(")\n")
