@@ -1,9 +1,9 @@
 (define (problem ProblemaEmer) (:domain Emergencias)
 (:objects 
-    alm - depo
+    alm - almacen
     l1 - localizacion
     p1 - persona
-    d1 - drone
+    d1 - dron
     c1 - caja
     comida medicina - contenido
 )
