@@ -74,9 +74,8 @@ def setup_content_types(options):
         for x in range(len(content_types) - 1):
             types_after_this = len(content_types) - x - 1
             max_now = crates_left - types_after_this
-            # print x, types_after_this, crates_left, len(content_types), max_now
+            #print x, types_after_this, crates_left, len(content_types), max_now
             num = random.randint(1, max_now)
-            # print num
             num_crates_with_contents.append(num)
             crates_left -= num
         num_crates_with_contents.append(crates_left)
