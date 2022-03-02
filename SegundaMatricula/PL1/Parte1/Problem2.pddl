@@ -24,9 +24,9 @@
 
 (:goal (and
     ;todo: put the goal condition here
-    (has p1 food)
-    (has p2 food)
-))
+        (has p1 food)
+        (has p2 food))
+)
 
 ;un-comment the following line if metric is needed
 ;(:metric minimize (???))
