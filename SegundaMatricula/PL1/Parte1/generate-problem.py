@@ -218,7 +218,7 @@ def main():
     carrier = []
     location = []
 
-    location.append("almacen")
+    location.append("wareh")
     for x in range(options.locations):
         location.append("loc" + str(x + 1))
     for x in range(options.drones):
@@ -257,7 +257,7 @@ def main():
         # Write the initial part of the problem
 
         f.write("(define (problem " + problem_name + ")\n")
-        f.write("(:domain drone-domain)\n")
+        f.write("(:domain AidRelief)\n")
         f.write("(:objects\n")
 
         ######################################################################
@@ -267,19 +267,19 @@ def main():
         # to suit your domain.
 
         for x in drone:
-            f.write("\t" + x + " - dron\n")
+            f.write("\t" + x + " - drone\n")
 
         for x in location:
-            f.write("\t" + x + " - localizacion\n")
+            f.write("\t" + x + " - localization\n")
 
         for x in crate:
-            f.write("\t" + x + " - caja\n")
+            f.write("\t" + x + " - crate\n")
 
         for x in content_types:
-            f.write("\t" + x + " - contenido\n")
+            f.write("\t" + x + " - content\n")
 
         for x in person:
-            f.write("\t" + x + " - persona\n")
+            f.write("\t" + x + " - person\n")
 
         for x in carrier:
             f.write("\t" + x + " - carrier\n")
@@ -294,21 +294,23 @@ def main():
 
         #  Drones empiezan en el almacen
         for x in drone:
-            f.write("\t(dron-en "+ x +" almacen)\n")
-            f.write("\t(vacio "+ x +")\n")
+            f.write("\t(drone-in "+ x +" wareh)\n")
+            f.write("\t(empty "+ x +")\n")
         
         #cajas empiezan en el almacen
         for x in crate:
-            f.write("\t(caja-en "+ x +" almacen)\n")
+            f.write("\t(crate-in "+ x +" wareh)\n")
 
         #colocar los contenidos en las cajas
         for i in range(len(content_types)):
             for x in crates_with_contents[i]:#comida
-                f.write("\t(contiene "+ x +" "+content_types[i] +")\n")
+                f.write("\t(contains "+ x +" "+content_types[i] +")\n")
 
 
-        #TODO: colocar las personas en su ubicación
-
+        #colocar las personas en su ubicación
+        location.remove("wareh")
+        for i in person:
+            f.write("\t(person-in "+i+" "+ location[random.randint(1, len(location))-1]+")\n")
 
 
         f.write(")\n")
@@ -321,14 +323,14 @@ def main():
         # All Drones should end up at the depot
         for x in drone:
             f.write("\n")
-            f.write("\t(dron-en "+ x +" almacen)\n")
+            f.write("\t(drone-in "+ x +" wareh)\n")
 
         for x in range(options.persons):
             for y in range(len(content_types)):
                 if need[x][y]:
                     person_name = person[x]
                     content_name = content_types[y]
-                    f.write("\t(tiene "+person_name+" "+content_name+")\n")
+                    f.write("\t(has "+person_name+" "+content_name+")\n")
 
         f.write("\t))\n")
         f.write(")\n")
