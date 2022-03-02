@@ -26,12 +26,14 @@ def main():
         os.system(cmd)
         fin=current_milli_time()
         tiempo=fin-inicio
-        print("\n"+str(tiempo)+"\n")
+        #print("\n"+str(tiempo)+"\n")
         contador+=1
         tiemposFF.append(tiempo)
 
     print(tiemposFF)
+
     #TODO: ejecutar LPG-TD
+    
     #TODO: ejecutar SGPLAN40
     #TODO: ejecutar SATPLAN
     #TODO: ejecutar FastDownward
