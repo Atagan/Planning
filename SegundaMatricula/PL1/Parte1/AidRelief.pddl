@@ -6,8 +6,8 @@
     (:requirements :strips :typing)
 
     (:types ;todo: enumerate types and their hierarchy here, e.g. car truck bus - vehicle
+        person crate content drone localization - object
         warehouse - localization
-        person crate content drone
     )
 
     ; un-comment following line if constants are needed
