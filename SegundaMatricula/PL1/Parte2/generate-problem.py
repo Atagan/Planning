@@ -23,6 +23,7 @@ import sys
 # You can change this to generate other contents if you want.
 
 content_types = ["food", "medicine"]
+carrier_capacity=4
 
 
 ########################################################################################
@@ -217,6 +218,7 @@ def main():
     crate = []
     carrier = []
     location = []
+    nums=[]
 
     location.append("wareh")
     for x in range(options.locations):
@@ -229,6 +231,9 @@ def main():
         person.append("person" + str(x + 1))
     for x in range(options.crates):
         crate.append("crate" + str(x + 1))
+    for x in range(0,carrier_capacity+1):
+        nums.append("num"+str(x))
+
     
     # Determine the set of crates for each content.
     # If content_types[0] is "food",
@@ -284,6 +289,8 @@ def main():
         for x in carrier:
             f.write("\t" + x + " - carrier\n")
 
+        for x in nums:
+            f.write("\t" + x + " - num\n")
 
         f.write(")\n")
 
@@ -300,6 +307,10 @@ def main():
         #cajas empiezan en el almacen
         for x in crate:
             f.write("\t(crate-in "+ x +" wareh)\n")
+
+        #los numeros van en orden:
+        for x in range(0, carrier_capacity):
+            f.write("\t(next "+nums[x]+" "+nums[x+1]+")\n")
 
         #colocar los contenidos en las cajas
         for i in range(len(content_types)):
