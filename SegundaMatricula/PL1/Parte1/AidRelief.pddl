@@ -38,7 +38,7 @@
 
     (:action move
         :parameters (?d - drone ?l1 ?l2 - localization)
-        :precondition (and (drone-in ?d ?l1))
+        :precondition (drone-in ?d ?l1)
         :effect (and (drone-in ?d ?l2)
             (not (drone-in ?d ?l1)))
     )

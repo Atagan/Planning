@@ -19,13 +19,13 @@
     (empty d1)
     (contains c1 food)
     (contains c2 food)
-    (contains c3 medicine)
+    (contains c3 food)
 )
 
 (:goal (and
     ;todo: put the goal condition here
     (has p1 food)
-    (has p2 medicine)
+    (has p2 food)
 ))
 
 ;un-comment the following line if metric is needed
