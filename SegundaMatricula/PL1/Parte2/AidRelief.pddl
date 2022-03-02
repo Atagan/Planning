@@ -67,7 +67,7 @@
         :parameters (?r - carrier ?d - drone ?c - crate ?l - localization ?n1 ?n2 - num)
         :precondition (and (crate-in ?c ?l)
                             (drone-in ?d ?l)
-                            (carrier-in ?r ?l)
+                            (carrier-taken ?r ?d)
                             (ocuppancy ?r ?n1)
                             (next ?n1 ?n2)
         )

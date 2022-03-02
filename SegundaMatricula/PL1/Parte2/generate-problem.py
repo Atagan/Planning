@@ -273,25 +273,30 @@ def main():
 
         for x in drone:
             f.write("\t" + x + " - drone\n")
+        f.write("\n")
 
         for x in location:
             f.write("\t" + x + " - localization\n")
+        f.write("\n")
 
         for x in crate:
             f.write("\t" + x + " - crate\n")
+        f.write("\n")
 
         for x in content_types:
             f.write("\t" + x + " - content\n")
+        f.write("\n")
 
         for x in person:
             f.write("\t" + x + " - person\n")
+        f.write("\n")
 
         for x in carrier:
             f.write("\t" + x + " - carrier\n")
+        f.write("\n")
 
         for x in nums:
             f.write("\t" + x + " - num\n")
-
         f.write(")\n")
 
         ######################################################################
@@ -301,22 +306,35 @@ def main():
 
         #  Drones empiezan en el almacen
         for x in drone:
-            f.write("\t(drone-in "+ x +" wareh)\n")
-            f.write("\t(empty "+ x +")\n")
+            f.write("\t(drone-in " + x + " wareh)\n")
+            f.write("\t(empty " + x + ")\n")
         
+        f.write("\n")
+
+        # Carrier empieza en almacen 
+        for x in carrier:
+            f.write("\t(carrier-in " + x + " wareh)\n")
+            f.write("\t(ocuppancy " + x + " num0)\n")
+        f.write("\n")
+
         #cajas empiezan en el almacen
         for x in crate:
             f.write("\t(crate-in "+ x +" wareh)\n")
 
+        f.write("\n")
+
         #los numeros van en orden:
         for x in range(0, carrier_capacity):
             f.write("\t(next "+nums[x]+" "+nums[x+1]+")\n")
+
+        f.write("\n")
 
         #colocar los contenidos en las cajas
         for i in range(len(content_types)):
             for x in crates_with_contents[i]:#comida
                 f.write("\t(contains "+ x +" "+content_types[i] +")\n")
 
+        f.write("\n")
 
         #colocar las personas en su ubicación
         location.remove("wareh")
@@ -335,6 +353,8 @@ def main():
         for x in drone:
             f.write("\n")
             f.write("\t(drone-in "+ x +" wareh)\n")
+
+        f.write("\n")
 
         for x in range(options.persons):
             for y in range(len(content_types)):
