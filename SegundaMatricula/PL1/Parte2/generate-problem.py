@@ -310,7 +310,7 @@ def main():
         #colocar las personas en su ubicación
         location.remove("wareh")
         for i in person:
-            f.write("\t(person-in "+i+" "+ location[random.randint(1, len(location))-1]+")\n")
+            f.write("\t(person-in "+i+" "+ location[random.randint(0, len(location)-1)]+")\n")
 
 
         f.write(")\n")
