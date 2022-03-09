@@ -26,10 +26,9 @@
         (crate-loaded ?c - crate ?r - carrier)
         (carrier-in ?r - carrier ?l - localization)
         (ocuppancy ?r - carrier ?n - num); TODO: pensar un nombre mejor
-        (carrier-taken ?r - carrier ?d - drone)
     )
 
-    (:action take
+    (:action take-crate
         :parameters (?d - drone ?c - crate ?l - localization)
         :precondition (and (empty ?d)
             (crate-in ?c ?l)
@@ -41,14 +40,14 @@
             (not (crate-in ?c ?l)))
     )
 
-    (:action move
+    (:action move-drone
         :parameters (?d - drone ?l1 ?l2 - localization)
         :precondition (and (drone-in ?d ?l1))
         :effect (and (drone-in ?d ?l2)
             (not (drone-in ?d ?l1)))
     )
 
-    (:action deliver
+    (:action deliver-crate
         :parameters (?d - drone ?c - crate ?cont - content ?l - localization ?p - person)
         :precondition (and (loaded ?d)
             (drone-in ?d ?l)
@@ -67,7 +66,7 @@
         :parameters (?r - carrier ?d - drone ?c - crate ?l - localization ?n1 ?n2 - num)
         :precondition (and (crate-in ?c ?l)
                             (drone-in ?d ?l)
-                            (carrier-taken ?r ?d)
+                            (carrier-in ?r ?l)
                             (ocuppancy ?r ?n1)
                             (next ?n1 ?n2)
         )
@@ -83,43 +82,29 @@
         :precondition (and (drone-in ?d ?l)
                             (crate-loaded ?c ?r)
                             (person-in ?p ?l)
+                            (carrier-in ?r ?l)
                             (contains ?c ?cont)
-                            (carrier-taken ?r ?d)
                             (next ?n2 ?n1)
                             (ocuppancy ?r ?n1)
         )
         :effect (and (not (crate-loaded ?c ?r))
                     (not (ocuppancy ?r ?n1))
                     (ocuppancy ?r ?n2)
-                    (has ?p ?cont)
+                    (crate-in ?c ?l)
         )
     )
     
-    (:action pick-carrier
-        :parameters (?d - drone ?r - carrier ?l - localization)
-        :precondition (and (drone-in ?d ?l)
-                            (carrier-in ?r ?l)
-                            (empty ?d)
-        )
-        :effect (and (carrier-taken ?r ?d)
-                    (not (carrier-in ?r ?l))
-                    (loaded ?d)
-                    (not (empty ?d))
-        )
-    )
-    
-    (:action drop-carrier
-        :parameters (?d - drone ?r - carrier ?l - localization)
-        :precondition (and (carrier-taken ?r ?d)
-                        (drone-in ?d ?l))
-        :effect (and (empty ?d)
-                    (not (loaded ?d))
-                    (carrier-in ?r ?l)
-                    (not (carrier-taken ?r ?d))
-                    )
-    )
+   (:action move-carrier
+       :parameters (?d - drone ?r - carrier ?l1 ?l2  - localization)
+       :precondition (and (drone-in ?d ?l1)
+                          (carrier-in ?r ?l1))
+       :effect (and (drone-in ?d ?l2)
+                    (not (drone-in ?d ?l1))
+                    (carrier-in ?r ?l2)
+                    (not (carrier-in ?r ?l1)))
+   )
+   
     
 
-    ;define actions here
 
 )
