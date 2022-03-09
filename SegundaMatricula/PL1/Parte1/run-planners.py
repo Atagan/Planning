@@ -1,29 +1,41 @@
+from optparse import OptionParser
 import os
 import time
-
+import sys
 
 def main():
+    parser = OptionParser(usage='python3 run-planners.py [-help] options...')
+    parser.add_option('-s', '--salto', metavar='NUM', dest='salto', action='store', type=int, help='salto')
+    (options, args) = parser.parse_args()
+    if options.salto is None:
+        print("suponemos que el salto es 10")
+        salto=10
+    else:
+        salto=options.salto
     problemas=[]
     print("Creamos los problemas necesarios (rango 10-100).\n")
-    for i in range(1,11):
-        cantidad=10*i
+    i=1
+    cantidad=0
+    while(cantidad<100):
+        cantidad=salto*i
         aux=" -l " + str((int(cantidad//2))) + " -p "+str((int(cantidad)))+" -c " + str((int(cantidad))) + " -g "+str((int(cantidad)))
         cmd= "python3 generate-problem.py -d 1 -r 0" + aux
         os.system(cmd) #Descomentar para que funcione, pero no quiero que me pete la carpeta uwu
         aux="drone_problem_d1_r0_l"+str((int(cantidad//2)))+"_p"+str((int(cantidad)))+"_c"+str((int(cantidad)))+"_g"+str((int(cantidad)))+"_ct2.pddl"
         problemas.append(aux)
+        i+=1
 
     #Aqui ejecutamos los problemas sobre planificador FF, la ejecucion se detiene tras planear el ultimo problema o tras que un plan tarde más de 5 minutos en ejecutarse
-    tiemposFF=ejecutar_planificador(problemas,"./ff -o AidRelief.pddl -f ")
+    #tiemposFF=ejecutar_planificador(problemas,"./ff -o AidRelief.pddl -f ")
 
     #TODO: ejecutar LPG-TD
-    tiemposLPG=ejecutar_planificador(problemas,"")
+    #tiemposLPG=ejecutar_planificador(problemas,"./lpg-td -o AidRelief.pddl -n 1 -f ")
 
     #TODO: ejecutar SGPLAN40
-    tiemposSGPlan=ejecutar_planificador(problemas,"")
+    #tiemposSGPlan=ejecutar_planificador(problemas,"./sgplan40 -o AidRelief.pddl -out borrar.soln -f ")
 
     #TODO: ejecutar SATPLAN
-    tiemposSATPlan=ejecutar_planificador(problemas,"")
+    tiemposSATPlan=ejecutar_planificador(problemas,"./satplan/satplan -solver siege -domain AidRelief.pddl -problem ")
 
     #TODO: ejecutar FastDownward
     tiemposFD=ejecutar_planificador(problemas,"")
@@ -33,6 +45,12 @@ def main():
     for x in problemas:
         cmd="rm "+x
         os.system(cmd)
+        cmd="rm plan_"+x+"_1.SOL"
+        os.system(cmd)
+
+
+    cmd= "rm borrar.soln"
+    os.system(cmd)
 
 
 def ejecutar_planificador(problemas, planificador):
