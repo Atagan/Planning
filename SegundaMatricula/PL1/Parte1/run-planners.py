@@ -28,16 +28,16 @@ def main():
     #Aqui ejecutamos los problemas sobre planificador FF, la ejecucion se detiene tras planear el ultimo problema o tras que un plan tarde más de 5 minutos en ejecutarse
     #tiemposFF=ejecutar_planificador(problemas,"./ff -o AidRelief.pddl -f ")
 
-    #TODO: ejecutar LPG-TD
-    #tiemposLPG=ejecutar_planificador(problemas,"./lpg-td -o AidRelief.pddl -n 1 -f ")
+    #ejecutar LPG-TD
+    tiemposLPG=ejecutar_planificador(problemas,"./lpg-td -o AidRelief.pddl -n 1 -f ")
 
-    #TODO: ejecutar SGPLAN40
-    #tiemposSGPlan=ejecutar_planificador(problemas,"./sgplan40 -o AidRelief.pddl -out borrar.soln -f ")
+    #ejecutar SGPLAN40
+    tiemposSGPlan=ejecutar_planificador(problemas,"./sgplan40 -o AidRelief.pddl -out borrar.soln -f ")
 
-    #TODO: ejecutar SATPLAN
+    #ejecutar SATPLAN
     tiemposSATPlan=ejecutar_planificador(problemas,"./satplan/satplan -solver siege -domain AidRelief.pddl -problem ")
 
-    #TODO: ejecutar FastDownward
+    #ejecutar FastDownward
     tiemposFD=ejecutar_planificador(problemas,"")
 
 
