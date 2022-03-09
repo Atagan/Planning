@@ -7,11 +7,13 @@ def main():
     parser = OptionParser(usage='python3 run-planners.py [-help] options...')
     parser.add_option('-s', '--salto', metavar='NUM', dest='salto', action='store', type=int, help='salto')
     (options, args) = parser.parse_args()
+
     if options.salto is None:
         print("suponemos que el salto es 10")
         salto=10
     else:
         salto=options.salto
+
     problemas=[]
     print("Creamos los problemas necesarios (rango 10-100).\n")
     i=1
@@ -39,7 +41,6 @@ def main():
 
     #ejecutar FastDownward
     tiemposFD=ejecutar_planificador(problemas,"")
-
 
     #Limpiamos el directorio:
     for x in problemas:
