@@ -17,12 +17,16 @@ def main():
     tiemposFF=ejecutar_planificador(problemas,"./ff -o AidRelief.pddl -f ")
 
     #TODO: ejecutar LPG-TD
-    
+    tiemposLPG=ejecutar_planificador(problemas,"")
+
     #TODO: ejecutar SGPLAN40
+    tiemposSGPlan=ejecutar_planificador(problemas,"")
 
     #TODO: ejecutar SATPLAN
+    tiemposSATPlan=ejecutar_planificador(problemas,"")
 
     #TODO: ejecutar FastDownward
+    tiemposFD=ejecutar_planificador(problemas,"")
 
 
     #Limpiamos el directorio:
