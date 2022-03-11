@@ -36,11 +36,12 @@ def main():
     #ejecutar SGPLAN40
     tiemposSGPlan=ejecutar_planificador(problemas,"./sgplan40 -o AidRelief.pddl -out borrar.soln -f ")
 
-    #ejecutar SATPLAN
+    #ejecutar FastDownward
+    #tiemposFD=ejecutar_planificador(problemas,"")
+
+    #ejecutar SATPLAN (satPlan el ultimo porque se caga encima)
     tiemposSATPlan=ejecutar_planificador(problemas,"./satplan/satplan -solver siege -domain AidRelief.pddl -problem ")
 
-    #ejecutar FastDownward
-    tiemposFD=ejecutar_planificador(problemas,"")
 
     #Limpiamos el directorio:
     for x in problemas:
@@ -50,7 +51,9 @@ def main():
         os.system(cmd)
 
 
-    cmd= "rm borrar.soln"
+    cmd= "rm *.soln"
+    os.system(cmd)
+    cmd= "rm *.SOL"
     os.system(cmd)
 
 
