@@ -64,7 +64,7 @@
 
     (:action load-carrier
         :parameters (?r - carrier ?d - drone ?c - crate ?l - localization ?n1 ?n2 - num)
-        :precondition (and (crate-in ?c ?l)
+        :precondition (and (crate-taken-by ?c ?d)
                             (drone-in ?d ?l)
                             (carrier-in ?r ?l)
                             (ocuppancy ?r ?n1)
@@ -97,7 +97,8 @@
    (:action move-carrier
        :parameters (?d - drone ?r - carrier ?l1 ?l2  - localization)
        :precondition (and (drone-in ?d ?l1)
-                          (carrier-in ?r ?l1))
+                          (carrier-in ?r ?l1)
+                          (empty ?d))
        :effect (and (drone-in ?d ?l2)
                     (not (drone-in ?d ?l1))
                     (carrier-in ?r ?l2)
