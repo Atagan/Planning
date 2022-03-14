@@ -46,8 +46,10 @@ def crear_problemas():
     i = 1; num = 0; problemas = []
     while (num < 100):
         num = salto * i
-        os.system("python3 generate-problem.py -d 1 -r 0" + " -l " + str((int(num // 2))) + " -p " + str((int(num))) + " -c " + str((int(num))) + " -g " + str((int(num))))
-        problemas.append("drone_problem_d1_r0_l" + str((int(num // 2))) + "_p" + str((int(num))) + "_c" + str((int(num))) + "_g" + str((int(num))) + "_ct2.pddl")
+        os.system("python3 generate-problem.py -d 1 -r 0" + " -l " + str((int(num // 2))) + " -p " + str((int(num))) +
+                  " -c " + str((int(num))) + " -g " + str((int(num))))
+        problemas.append("drone_problem_d1_r0_l" + str((int(num // 2))) + "_p" + str((int(num))) + "_c" + str((int(num))) +
+                         "_g" + str((int(num))) + "_ct2.pddl")
         i += 1
     return problemas
 
@@ -62,22 +64,20 @@ def ejecutar_planificador_problema(planificador, problemas):
 
     while(tiempo<tiempoMax and contador<len(problemas)):
         print("Plan para el problema: "+str(contador)+"\n")
-        inicio=current_milli_time()
+        inicio= round(time.time() * 1000)
         problema = problemas[contador]
         os.system(planificador + problema)
-        fin=current_milli_time()
+        fin= round(time.time() * 1000)
         tiempo = fin-inicio
         tiempos[problema[14:len(problema)-9]] = (tiempo/1000) #tiempo en segundos
         contador += 1
 
     if((contador)<len(problemas)):
-        print("Se ha excedido el tiempo máximo de " + str(tiempoMax/1000) +" segundos, se ha terminado la ejecución en el problema: "+str(contador)+"\n")
+        print("Se ha excedido el tiempo máximo de " + str(tiempoMax/1000) +
+              " segundos, se ha terminado la ejecución en el problema: "+str(contador)+"\n")
     else:
         print("Se han completado todos los problemas previstos.")
     return tiempos
-
-def current_milli_time():
-    return round(time.time() * 1000)
 
 if __name__ == '__main__':
     main()
