@@ -32,6 +32,7 @@ def writeData(listas):
     print(listaTiempos)
     for lista in listaTiempos:
         for tiempo in lista:
+            tiempo=tiempo.replace(".",",")
             fichero.write(";"+str(tiempo))
         fichero.write("\n")
        
