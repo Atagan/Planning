@@ -299,6 +299,8 @@ def main():
             f.write("\t" + x + " - num\n")
         f.write(")\n")
 
+        
+
         ######################################################################
         # Generate an initial state
 
@@ -341,6 +343,16 @@ def main():
         for i in person:
             f.write("\t(person-in "+i+" "+ location[random.randint(0, len(location)-1)]+")\n")
 
+        f.write("\n")
+
+        for i in range(1,len(location)+1):
+            f.write("\t(=(distance loc"+str(i)+" wareh) "+str(flight_cost(location_coords, i, 0))+")\n")
+            f.write("\t(=(distance wareh loc"+str(i)+") "+str(flight_cost(location_coords, 0, i))+")\n")
+
+
+        for i in range(1,len(location)+1):
+            for j in range(1,len(location)+1):
+                f.write("\t(=(distance loc"+str(i)+" loc"+ str(j)+") "+str(flight_cost(location_coords, i, j))+")\n")
 
         f.write(")\n")
 
