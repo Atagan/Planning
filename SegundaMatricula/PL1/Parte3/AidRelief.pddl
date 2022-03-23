@@ -36,7 +36,7 @@
         :parameters (?d - drone ?c - crate ?l - localization)
         :duration (= ?duration 1)
         :condition (and 
-            (at start (and 
+            (over all (and 
                 (empty ?d)
                 (crate-in ?c ?l)
                 (drone-in ?d ?l)
@@ -49,8 +49,8 @@
                     )
                 )
                 
-                (at end 
-                    (and (loaded ?d)
+                (at end (and 
+                    (loaded ?d)
                     (not (empty ?d))
                     (crate-taken-by ?c ?d)
                     )
@@ -77,11 +77,13 @@
         :condition (and 
             (at start (and 
                 (loaded ?d)
-                (person-in ?p ?l)
-                (contains ?c ?cont)
                 (crate-taken-by ?c ?d)
             ))
-            (over all (drone-in ?d ?l))
+            (over all (and
+                (drone-in ?d ?l)
+                (person-in ?p ?l)
+                (contains ?c ?cont))
+            )
         )
         :effect 
             (at end (and 
