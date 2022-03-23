@@ -3,7 +3,7 @@
 (define (domain AidRelief)
 
     ;remove requirements that are not needed
-    (:requirements :strips :typing)
+    (:requirements :strips :typing :durative-actions :fluents)
 
     (:types ;todo: enumerate types and their hierarchy here, e.g. car truck bus - vehicle
         person crate content drone carrier num - object 
@@ -28,84 +28,147 @@
         (ocuppancy ?r - carrier ?n - num); TODO: pensar un nombre mejor
     )
 
-    (:action take-crate
+    (:functions
+        (distance ?l1 ?l2 - localization)
+    )
+
+    (:durative-action take-crate
         :parameters (?d - drone ?c - crate ?l - localization)
-        :precondition (and (empty ?d)
-            (crate-in ?c ?l)
-            (drone-in ?d ?l)
+        :duration (= ?duration 1)
+        :condition (and 
+            (at start (and 
+                (empty ?d)
+                (crate-in ?c ?l)
+                (drone-in ?d ?l)
+                )
+            )
         )
-        :effect (and (loaded ?d)
-            (not (empty ?d))
-            (crate-taken-by ?c ?d)
-            (not (crate-in ?c ?l)))
-    )
+        :effect (and 
+                (at start (and 
+                    (not (crate-in ?c ?l))
+                    )
+                )
+                
+                (at end 
+                    (and (loaded ?d)
+                    (not (empty ?d))
+                    (crate-taken-by ?c ?d)
+                    )
+                )
+            )
+        )
+    
+    
 
-    (:action move-drone
+    (:durative-action move-drone
         :parameters (?d - drone ?l1 ?l2 - localization)
-        :precondition (and (drone-in ?d ?l1))
-        :effect (and (drone-in ?d ?l2)
-            (not (drone-in ?d ?l1)))
+        :duration (= ?duration (distance ?l1 ?l2))
+        :condition  
+            (at start (drone-in ?d ?l1))
+        :effect (and 
+            (at start (not (drone-in ?d ?l1)))
+            (at end (drone-in ?d ?l2))
+        )
     )
-
-    (:action deliver-crate
+    
+    (:durative-action deliver-crate
         :parameters (?d - drone ?c - crate ?cont - content ?l - localization ?p - person)
-        :precondition (and (loaded ?d)
-            (drone-in ?d ?l)
-            (person-in ?p ?l)
-            (contains ?c ?cont)
-            (crate-taken-by ?c ?d)
+        :duration (= ?duration 1)
+        :condition (and 
+            (at start (and 
+                (loaded ?d)
+                (person-in ?p ?l)
+                (contains ?c ?cont)
+                (crate-taken-by ?c ?d)
+            ))
+            (over all (drone-in ?d ?l))
         )
-        :effect (and (empty ?d)
-            (not (loaded ?d))
-            (has ?p ?cont)
-            (not (crate-taken-by ?c ?d))
+        :effect 
+            (at end (and 
+                (empty ?d)
+                (not (loaded ?d))
+                (has ?p ?cont)
+                (not (crate-taken-by ?c ?d))
+            )
         )
     )
-
-    (:action load-carrier
+    
+    (:durative-action load-carrier
         :parameters (?r - carrier ?d - drone ?c - crate ?l - localization ?n1 ?n2 - num)
-        :precondition (and (crate-taken-by ?c ?d)
-                            (drone-in ?d ?l)
-                            (carrier-in ?r ?l)
-                            (ocuppancy ?r ?n1)
-                            (next ?n1 ?n2)
+        :duration (= ?duration 1)
+        :condition (and
+            (at start (and 
+                (crate-taken-by ?c ?d)
+                (ocuppancy ?r ?n1)
+                (next ?n1 ?n2)
+            ))
+            (over all (and
+                (drone-in ?d ?l)
+                (carrier-in ?r ?l)
+            ))
         )
-        :effect (and (crate-loaded ?c ?r)
-                     (not (crate-in ?c ?l))
-                     (not (ocuppancy ?r ?n1))
-                     (ocuppancy ?r ?n2)
+        :effect (and 
+            (at start (and 
+                (not (crate-in ?c ?l))
+                (not (ocuppancy ?r ?n1))
+            ))
+            (at end (and 
+                (crate-loaded ?c ?r)
+                (ocuppancy ?r ?n2)
+            ))
         )
     )
     
-    (:action unload-carrier
+    (:durative-action unload-carrier
         :parameters (?r - carrier ?d - drone ?c - crate ?l - localization ?p - person ?cont - content ?n1 ?n2 - num)
-        :precondition (and (drone-in ?d ?l)
-                            (crate-loaded ?c ?r)
-                            (person-in ?p ?l)
-                            (carrier-in ?r ?l)
-                            (contains ?c ?cont)
-                            (next ?n2 ?n1)
-                            (ocuppancy ?r ?n1)
+        :duration (= ?duration 1)
+        :condition (and 
+            (at start (and 
+                (crate-loaded ?c ?r)
+                (next ?n2 ?n1)
+                (ocuppancy ?r ?n1)
+            ))
+            (over all (and 
+                (drone-in ?d ?l)
+                (person-in ?p ?l)
+                (carrier-in ?r ?l)
+                (contains ?c ?cont)
+            ))
         )
-        :effect (and (not (crate-loaded ?c ?r))
-                    (not (ocuppancy ?r ?n1))
-                    (ocuppancy ?r ?n2)
-                    (crate-in ?c ?l)
+        :effect 
+            (at end (and 
+                (not (crate-loaded ?c ?r))
+                (not (ocuppancy ?r ?n1))
+                (ocuppancy ?r ?n2)
+                (crate-in ?c ?l)
+            )
         )
     )
     
-   (:action move-carrier
-       :parameters (?d - drone ?r - carrier ?l1 ?l2  - localization)
-       :precondition (and (drone-in ?d ?l1)
-                          (carrier-in ?r ?l1)
-                          (empty ?d))
-       :effect (and (drone-in ?d ?l2)
-                    (not (drone-in ?d ?l1))
-                    (carrier-in ?r ?l2)
-                    (not (carrier-in ?r ?l1)))
-   )
-   
     
-
-
+    (:durative-action move-carrier
+        :parameters (?d - drone ?r - carrier ?l1 ?l2  - localization)
+        :duration (= ?duration (distance ?l1 ?l2))
+        :condition (and 
+            (at start (and 
+            ))
+            (over all (and 
+                (drone-in ?d ?l1)
+                (carrier-in ?r ?l1)
+                (empty ?d))
+            ))
+            (at end (and 
+            ))
+        )
+        :effect (and 
+            (at start (and 
+                (not (drone-in ?d ?l1))
+                (not (carrier-in ?r ?l1)))
+            ))
+            (at end (and 
+                (drone-in ?d ?l2)
+                (carrier-in ?r ?l2)
+            ))
+        )
+    )
 )
