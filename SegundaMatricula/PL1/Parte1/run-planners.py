@@ -1,8 +1,6 @@
 from optparse import OptionParser
 import os
 import time
-import sys
-import csv
 
 def main():
     resultados = {}
@@ -35,7 +33,7 @@ def crear_problemas():
     if options.salto is None:
         print("Salto de 10 en 10"); salto = 10
     elif options.salto is 0:
-    	salto = 1
+        salto = 1
     else:
         salto = options.salto
 
@@ -52,8 +50,6 @@ def crear_problemas():
 
 def ejecutar_planificador_problema(planificador, comando, problemas):
     tiempos={}; contador=0; tiempo = 0; tiempoMax = 300000
-    
-    #contadorLimite = 10 if (planificador == 'satplan') else len(problemas)
     contadorLimite = len(problemas)
 
     while(tiempo<tiempoMax and contador<contadorLimite):
@@ -67,9 +63,10 @@ def ejecutar_planificador_problema(planificador, comando, problemas):
         contador += 1
 
     if((contador)<len(problemas)):
-        print("Se ha excedido el tiempo máximo de " + str(tiempoMax/1000) +" segundos, se ha terminado la ejecución en el problema: "+str(contador)+"\n")
+        print("Con el planificador " + planificador + " se ha excedido el tiempo máximo de " + str(tiempoMax/1000) + " segundos, " +
+        "se ha terminado la ejecución en el problema: "+str(contador)+"\n")
     else:
-        print("Se han completado todos los problemas previstos.")
+        print(planificador + " ha completado todos los problemas previstos.")
     return tiempos
 
 
@@ -78,7 +75,7 @@ def grabar_resultados(resultados):
     for key in resultados:
         csv.write("\n" + str(key) + "\n")
         for key2 in resultados[key]:
-        	csv.write(str(key2) + ";" + str(resultados[key][key2]) + "\n")	
+            csv.write(str(key2) + ";" + str(resultados[key][key2]) + "\n")
     csv.close()
  
     
