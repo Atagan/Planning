@@ -23,7 +23,7 @@ def main():
         aux=" -l " + str((int(cantidad//2))) + " -p "+str((int(cantidad)))+" -c " + str((int(cantidad))) + " -g "+str((int(cantidad)))
         cmd= "python3 generate-problem.py -d 1 -r 1" + aux
         os.system(cmd) #Descomentar para que funcione, pero no quiero que me pete la carpeta uwu
-        aux="drone_problem_d1_r0_l"+str((int(cantidad//2)))+"_p"+str((int(cantidad)))+"_c"+str((int(cantidad)))+"_g"+str((int(cantidad)))+"_ct2.pddl"
+        aux="drone_problem_d1_r1_l"+str((int(cantidad//2)))+"_p"+str((int(cantidad)))+"_c"+str((int(cantidad)))+"_g"+str((int(cantidad)))+"_ct2.pddl"
         problemas.append(aux)
         i+=1
 
