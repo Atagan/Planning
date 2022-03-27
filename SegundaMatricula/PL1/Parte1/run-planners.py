@@ -24,7 +24,6 @@ def main():
     grabar_resultados(resultados)
     limpiar_directorio(problemas)
 
-
 def crear_problemas():
     parser = OptionParser(usage='python3 run-planners.py [-help] options...')
     parser.add_option('-s', '--salto', metavar='NUM', dest='salto', action='store', type=int, help='salto')

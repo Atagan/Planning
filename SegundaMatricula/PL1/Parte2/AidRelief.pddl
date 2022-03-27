@@ -25,7 +25,7 @@
         (next ?n1 ?n2 - num)
         (crate-loaded ?c - crate ?r - carrier)
         (carrier-in ?r - carrier ?l - localization)
-        (ocuppancy ?r - carrier ?n - num); TODO: pensar un nombre mejor
+        (ocuppancy ?r - carrier ?n - num)
     )
 
     (:functions
@@ -42,16 +42,17 @@
         :effect (and (loaded ?d)
             (not (empty ?d))
             (crate-taken-by ?c ?d)
-            (not (crate-in ?c ?l)))
+            (not (crate-in ?c ?l))
+        )
     )
 
     (:action move-drone
         :parameters (?d - drone ?l1 ?l2 - localization)
-        :precondition (and (drone-in ?d ?l1))
+        :precondition (drone-in ?d ?l1)
         :effect (and (drone-in ?d ?l2)
             (not (drone-in ?d ?l1))
             (increase (total-cost) (fly-cost ?l1 ?l2))
-            )
+        )
     )
 
     (:action deliver-crate
@@ -85,7 +86,8 @@
     )
     
     (:action unload-carrier
-        :parameters (?r - carrier ?d - drone ?c - crate ?l - localization ?p - person ?cont - content ?n1 ?n2 - num)
+        :parameters (?r - carrier ?d - drone ?c - crate ?l - localization 
+                        ?p - person ?cont - content ?n1 ?n2 - num)
         :precondition (and (drone-in ?d ?l)
                             (crate-loaded ?c ?r)
                             (person-in ?p ?l)
@@ -105,15 +107,12 @@
        :parameters (?d - drone ?r - carrier ?l1 ?l2  - localization)
        :precondition (and (drone-in ?d ?l1)
                           (carrier-in ?r ?l1)
-                          (empty ?d))
+                          (empty ?d)
+        )
        :effect (and (drone-in ?d ?l2)
                     (not (drone-in ?d ?l1))
                     (carrier-in ?r ?l2)
                     (not (carrier-in ?r ?l1))
                     (increase (total-cost) (fly-cost ?l1 ?l2)))
    )
-   
-    
-
-
 )
