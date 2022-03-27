@@ -3,7 +3,7 @@
 (define (domain AidRelief)
 
     ;remove requirements that are not needed
-    (:requirements :strips :typing)
+    (:requirements :strips :typing :action-costs)
 
     (:types ;todo: enumerate types and their hierarchy here, e.g. car truck bus - vehicle
         person crate content drone carrier num - object 
@@ -28,6 +28,11 @@
         (ocuppancy ?r - carrier ?n - num); TODO: pensar un nombre mejor
     )
 
+    (:functions
+       (total-cost)- number
+       (fly-cost ?l1 ?l2 - localization) - number
+    )
+
     (:action take-crate
         :parameters (?d - drone ?c - crate ?l - localization)
         :precondition (and (empty ?d)
@@ -44,7 +49,9 @@
         :parameters (?d - drone ?l1 ?l2 - localization)
         :precondition (and (drone-in ?d ?l1))
         :effect (and (drone-in ?d ?l2)
-            (not (drone-in ?d ?l1)))
+            (not (drone-in ?d ?l1))
+            (increase (total-cost) (fly-cost ?l1 ?l2))
+            )
     )
 
     (:action deliver-crate
@@ -102,7 +109,8 @@
        :effect (and (drone-in ?d ?l2)
                     (not (drone-in ?d ?l1))
                     (carrier-in ?r ?l2)
-                    (not (carrier-in ?r ?l1)))
+                    (not (carrier-in ?r ?l1))
+                    (increase (total-cost) (fly-cost ?l1 ?l2)))
    )
    
     
