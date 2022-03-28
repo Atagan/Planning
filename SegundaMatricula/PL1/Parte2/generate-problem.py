@@ -346,6 +346,7 @@ def main():
         f.write("\n")
 
         f.write("\t(=(total-cost) 0)\n")
+        f.write("\t(=(fly-cost wareh wareh) 0)")
         for i in range(1,len(location)+1):
             f.write("\t(=(fly-cost loc"+str(i)+" wareh) "+str(flight_cost(location_coords, i, 0))+")\n")
             f.write("\t(=(fly-cost wareh loc"+str(i)+") "+str(flight_cost(location_coords, 0, i))+")\n")
@@ -377,7 +378,7 @@ def main():
                     f.write("\t(has "+person_name+" "+content_name+")\n")
 
         f.write("\t))\n")
-        f.write("\t\n(:metric minimize (total-time))\n")
+        f.write("\t\n(:metric minimize (total-cost))\n")
         f.write(")\n")
 
 

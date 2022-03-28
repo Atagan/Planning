@@ -6,7 +6,7 @@
     (:requirements :strips :typing :action-costs)
 
     (:types ;todo: enumerate types and their hierarchy here, e.g. car truck bus - vehicle
-        person crate content drone carrier num - object 
+        person crate content drone carrier num localization - object 
         warehouse - localization
     )
 
