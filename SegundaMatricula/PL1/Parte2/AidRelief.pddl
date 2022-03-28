@@ -43,6 +43,7 @@
             (not (empty ?d))
             (crate-taken-by ?c ?d)
             (not (crate-in ?c ?l))
+            (increase (total-cost) 1)
         )
     )
 
@@ -67,6 +68,8 @@
             (not (loaded ?d))
             (has ?p ?cont)
             (not (crate-taken-by ?c ?d))
+            (increase (total-cost) 1)
+
         )
     )
 
@@ -82,6 +85,8 @@
                      (not (crate-in ?c ?l))
                      (not (ocuppancy ?r ?n1))
                      (ocuppancy ?r ?n2)
+                    (increase (total-cost) 1)
+
         )
     )
     
@@ -100,6 +105,8 @@
                     (not (ocuppancy ?r ?n1))
                     (ocuppancy ?r ?n2)
                     (crate-in ?c ?l)
+                    (increase (total-cost) 1)
+
         )
     )
     
