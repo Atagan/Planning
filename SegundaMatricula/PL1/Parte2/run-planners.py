@@ -22,7 +22,7 @@ def main():
     resultados['FASTDOWNWARD'] = ejecutar_planificador_problema('FastDownward', "./singularity-ce-3.9.5/downward.sif --alias lama-first AidRelief.pddl ", problemas)
 
     grabar_resultados(resultados)
-    limpiar_directorio(problemas
+    limpiar_directorio(problemas)
 
 def crear_problemas():
     parser = OptionParser(usage='python3 run-planners.py [-help] options...')
