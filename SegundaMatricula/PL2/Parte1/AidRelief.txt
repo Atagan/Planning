@@ -1,0 +1,21 @@
+(defdomain (AidRelief
+
+    (:operator (!take ?drone ?crate ?loc)
+               ()
+               ((empty ?drone) (crate-in ?crate ?loc) (drone-in ?drone ?loc))
+               ((loaded ?drone) (crate-taken-by ?crate ?drone))
+    )
+
+    (:operator (!move ?drone ?loc1 ?loc2)
+               ()
+               ((drone-in ?loc1))
+               ((drone-in ?loc2))
+    )
+
+    (:operator (!deliver ?drone ?crate ?content ?loc ?person)
+               ()
+               ((loaded ?drone) (drone-in ?drone ?loc) (person-in ?person ?loc) (contains ?crate ?content) (crate-taken-by ?crate ?drone))
+               ((empty ?d) (has ?person ?content))
+    )
+
+))
